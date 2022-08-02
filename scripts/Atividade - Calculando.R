@@ -28,3 +28,4 @@ binomialnegSimulacaoCentral <- binomialnegSimulacao - mean (binomialnegSimulacao
 hist(binomialnegSimulacao)
 hist(binomialnegSimulacaoCentral)
 
+
