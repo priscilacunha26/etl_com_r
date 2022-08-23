@@ -38,6 +38,16 @@ str(sinistrosRecifeRaw)
 # modifica a coluna situacao de texto para fator
 sinistrosRecifeRaw$situacao <- as.factor (sinistrosRecifeRaw$situacao)
 
+#modifica a data para formato date
+sinistrosRecifeRaw$data <- as.Date(sinistrosRecifeRaw$data, format = "%Y-%m-%d")
+
+#criando uma função para substituir not available (na) por 0
+naZero <- function(x) {
+  x <- ifelse(is.na(x), 0, x)
+}
+
+# aplica a função naZero a todas as colunas de contagem
+sinistrosRecifeRaw[, 14:24] <- sapply(sinistrosRecifeRaw[, 14:24], naZero)
 
 # exporta em formato nativo do R
 saveRDS(sinistrosRecifeRaw, "bases_tratadas/sinistrosRecife.rds")
