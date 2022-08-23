@@ -1,6 +1,6 @@
 # carrega a base de sinistros de transito do site da PCR
 
-sinistrosRecife2018Raw <- read.csv2('http://dados.recife.pe.gov.br/dataset/44087d2d-73b5-4ab3-9bd8-78da7436eed1/resource/2485590a-3b35-4ad0-b955-8dfc36b61021/download/acidentes_2018.csv', sep = ';', encoding = 'UTF-8')
+
 
 sinistrosRecife2019Raw <- read.csv2('http://dados.recife.pe.gov.br/dataset/44087d2d-73b5-4ab3-9bd8-78da7436eed1/resource/3531bafe-d47d-415e-b154-a881081ac76c/download/acidentes-2019.csv', sep = ';', encoding = 'UTF-8')
 
@@ -8,9 +8,29 @@ sinistrosRecife2020Raw <- read.csv2('http://dados.recife.pe.gov.br/dataset/44087
 
 sinistrosRecife2021Raw <- read.csv2('http://dados.recife.pe.gov.br/dataset/44087d2d-73b5-4ab3-9bd8-78da7436eed1/resource/2caa8f41-ccd9-4ea5-906d-f66017d6e107/download/acidentes_2021-jan.csv', sep = ';', encoding = 'UTF-8')
 
+
+# número de variáveis não coincide, é preciso remover as colunas excedentes
+# nomes das variáveis não coincidem, é preciso uniformizar
+
+
+sinistrosRecife2020Raw2 <- subset(sinistrosRecife2020Raw,select = -c(descricao)) # remove coluna ausente nos dados de 2021
+
+sinistrosRecife2019Raw2 <- subset(sinistrosRecife2019Raw,select = -c(endereco_cruzamento,
+                                                                     numero_cruzamento,
+                                                                     referencia_cruzamento,
+                                                                     descricao)) # remove colunas
+
+# Instala pacote necessário
+if(!require(dplyr)) install.packages("dplyr") # Read Data Stored by 'Minitab', 'S', 'SAS', 'SPSS', 'Stata',
+
+
+sinistrosRecife2019Raw2 <- rename (sinistrosRecife2019Raw2, data = DATA)
+
+
+
 # junta as bases de dados com comando rbind (juntas por linhas)
 
-sinistrosRecifeRaw <- rbind(sinistrosRecife2018Raw, sinistrosRecife2019Raw, sinistrosRecife2020Raw, sinistrosRecife2021Raw)
+sinistrosRecifeRaw <- rbind(sinistrosRecife2019Raw2, sinistrosRecife2020Raw2, sinistrosRecife2021Raw)
 
 # observar a estrutura dos dados
 str(sinistrosRecifeRaw)
